@@ -18748,36 +18748,28 @@ if (process.env.NODE_ENV !== 'production') {
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var ReactClass = React.createClass({
+    displayName: 'ReactClass',
 
-var listOfItems = React.createElement(
-    'ul',
-    { className: 'list-of-items' },
-    React.createElement(
-        'li',
-        { className: 'item-1' },
-        'Item 1'
-    ),
-    React.createElement(
-        'li',
-        { className: 'item-2' },
-        'Item 2'
-    ),
-    React.createElement(
-        'li',
-        { className: 'item-3' },
-        'Item 3'
-    )
-);
+    getInitialState: function getInitialState() {
+        return {
+            isHeaderHidden: false, title: 'Stateful React Component'
+        };
+    },
+    handleClick: function handleClick() {
+        this.setState({ isHeaderHidden: !this.state.isHeaderHidden });
+    },
+    render: function render() {
+        var headerElement = React.createElement('h1', { className: 'header', key: 'header' }, this.state.title);
+        var buttonElement = React.createElement('button', { className: 'btn btn-default', onClick: this.handleClick, key: 'button' }, 'Toggle header');
+        if (this.state.isHeaderHidden) {
+            return React.createElement('div', null, [buttonElement]);
+        }
+        return React.createElement('div', null, [buttonElement, headerElement]);
+    }
+});
 
-// var createListItemElement = React.createFactory('li');
-//
-// var listItemElement1 = createListItemElement({className: 'item-1', key: 'item-1'}, 'Item 1');
-// var listItemElement2 = createListItemElement({className: 'item-2', key: 'item-2'}, 'Item 2');
-// var listItemElement3 = createListItemElement({className: 'item-3', key: 'item-3'}, 'Item 3');
-//
-// var reactFragment = [ listItemElement1, listItemElement2, listItemElement3];
-// var listOfItems = React.createElement('ul', {className: 'list-of-items'}, reactFragment);
-//
-ReactDOM.render(listOfItems, document.getElementById('react-application'));
+var reactComponentElement = React.createElement(ReactClass);
+ReactDOM.render(reactComponentElement, document.getElementById('react-application'));
 
 },{"react":155,"react-dom":28}]},{},[156]);
